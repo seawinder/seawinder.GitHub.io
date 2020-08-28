@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  TangJiujun's Techblog
+  Database - TangJiujun's Techblog
   
   </title>
   
@@ -115,90 +115,6 @@
 	<div class="large-8 medium-8 columns">
 		<div class="markdown-body home-categories">
 		
-			<div class="article">
-                <a class="clearlink" href="spring-data-jpa-handle-amount.html">
-                
-                  <h1>使用 Spring Data JPA 操作大量数据</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h3 id="toc_0">批量删除区别</h3>
-
-<p>delete() 和 deleteInBatch()<br/>
-deleteAll() 和 deleteAllInBatch()</p>
-
-<p>普通删除方法会根据唯一标识字段，生成多条 SQL 语句，而有 InBatch 的方法只会生成一条 SQL 语句</p>
-
-<h3 id="toc_1">写入大量数据</h3>
-
-<pre><code class="language-text">@Transactional
-public void save100WEntities() {
-    for (int i = 0; i &lt; 1000; i++) {
-        respsitory.save(1000Entities);
-
-         entityManager.flush();
-        entityManager.clear();
-    }
-}
-</code></pre>
-
-<h3 id="toc_2">读取大量数据</h3>
-
-<p>需要满足3个条件：</p>
-
-<ol>
-<li>ResultSetType 是 <code>ResultSet.TYPE_FORWARD_ONLY</code></li>
-<li>ResultSetConcurrency 是 <code>ResultSet.CONCUR_READ_ONLY</code></li>
-<li>FetchSize 是 <code>Integer.MIN_VALUE</code></li>
-</ol>
-
-<pre><code class="language-text">Statement statement = connection.createStatement(
-        ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-statement.setFetchSize(Integer.MIN_VALUE);
-
-@Repository
-public interface UserRepository extends JpaRepository&lt;User, Integer&gt; {
-    @QueryHints(value = @QueryHint(name = FETCH_SIZE, value = &quot;&quot; + Integer.MIN_VALUE))
-    Stream&lt;User&gt; findByIdIsNotNull();
-}
-
-@Transactional
-public void run() {
-    try (Stream&lt;User&gt; stream = userRepository.findByIdIsNotNull()) {
-        stream.forEach(user -&gt; {
-            System.out.println(user);
-            entityManager.detach(user);
-        });
-    }
-}
-</code></pre>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2018/2/26</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Spring%20Boot.html'>Spring Boot</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-                        <a href="http://blog.tangjiujun.com/spring-data-jpa-handle-amount.html#disqus_thread">comments</a>
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
 			<div class="article">
                 <a class="clearlink" href="mysql-innodb-locks.html">
                 
@@ -315,62 +231,6 @@ DELIMITER ;
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="java-dynamic-proxy.html">
-                
-                  <h1>代理模式及 Java 实现动态代理</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h3 id="toc_0">前提条件</h3>
-
-<pre><code class="language-java">public interface Animal {
-    void say();
-
-    void run(String addr);
-}
-
-public class Dog implements Animal {
-    @Override
-    public void say() {
-        System.out.println(&quot;汪汪汪&quot;);
-    }
-
-    @Override
-    public void run(String addr) {
-        say();
-        System.out.println(&quot;狗在&quot; + addr + &quot;跑&quot;);
-    }
-}
-</code></pre>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="java-dynamic-proxy.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/4/23</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Java.html'>Java</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-                        <a href="http://blog.tangjiujun.com/java-dynamic-proxy.html#disqus_thread">comments</a>
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
                 <a class="clearlink" href="mysql-innodb-mvcc.html">
                 
                   <h1>关于 MySQL 中 InnoDB 的 MVCC 的一些理解</h1>
@@ -424,7 +284,7 @@ public class Dog implements Animal {
 			  </div>
 			  <div class="large-6 columns">
 			<p class="text-right" style="padding-top:25px;">
-			 <a href="all_1.html">&raquo; Next Page</a> 
+			
 			</p>
 			  </div>
 			</div>

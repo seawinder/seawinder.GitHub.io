@@ -116,178 +116,17 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="spring-data-jpa-handle-amount.html">
+                <a class="clearlink" href="java-file-watcher.html">
                 
-                  <h1>使用 Spring Data JPA 操作大量数据</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h3 id="toc_0">批量删除区别</h3>
-
-<p>delete() 和 deleteInBatch()<br/>
-deleteAll() 和 deleteAllInBatch()</p>
-
-<p>普通删除方法会根据唯一标识字段，生成多条 SQL 语句，而有 InBatch 的方法只会生成一条 SQL 语句</p>
-
-<h3 id="toc_1">写入大量数据</h3>
-
-<pre><code class="language-text">@Transactional
-public void save100WEntities() {
-    for (int i = 0; i &lt; 1000; i++) {
-        respsitory.save(1000Entities);
-
-         entityManager.flush();
-        entityManager.clear();
-    }
-}
-</code></pre>
-
-<h3 id="toc_2">读取大量数据</h3>
-
-<p>需要满足3个条件：</p>
-
-<ol>
-<li>ResultSetType 是 <code>ResultSet.TYPE_FORWARD_ONLY</code></li>
-<li>ResultSetConcurrency 是 <code>ResultSet.CONCUR_READ_ONLY</code></li>
-<li>FetchSize 是 <code>Integer.MIN_VALUE</code></li>
-</ol>
-
-<pre><code class="language-text">Statement statement = connection.createStatement(
-        ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-statement.setFetchSize(Integer.MIN_VALUE);
-
-@Repository
-public interface UserRepository extends JpaRepository&lt;User, Integer&gt; {
-    @QueryHints(value = @QueryHint(name = FETCH_SIZE, value = &quot;&quot; + Integer.MIN_VALUE))
-    Stream&lt;User&gt; findByIdIsNotNull();
-}
-
-@Transactional
-public void run() {
-    try (Stream&lt;User&gt; stream = userRepository.findByIdIsNotNull()) {
-        stream.forEach(user -&gt; {
-            System.out.println(user);
-            entityManager.detach(user);
-        });
-    }
-}
-</code></pre>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2018/2/26</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Spring%20Boot.html'>Spring Boot</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-                        <a href="http://blog.tangjiujun.com/spring-data-jpa-handle-amount.html#disqus_thread">comments</a>
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="mysql-innodb-locks.html">
-                
-                  <h1>关于 MySQL 中 InnoDB 事务锁的一些理解</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">InnoDB 行锁</h2>
-
-<blockquote>
-<p>参考 <a href="http://mysql.taobao.org/monthly/2016/01/01/">MySQL · 引擎特性 · InnoDB 事务锁系统简介</a><br/>
-<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-locks-set.html">Locks Set by Different SQL Statements in InnoDB</a></p>
-</blockquote>
-
-<h4 id="toc_1">区间锁（LOCK_GAP）</h4>
-
-<p>锁住一段范围，不锁记录本身，通常表示两个索引记录之间，或者索引上的第一条记录之前，或者最后一条记录之后的锁。一般在 RR 隔离级别下会使用。</p>
-
-<h5 id="toc_2">Next-Key 锁（LOCK_ORDINARY）</h5>
-
-<p>其实就是锁住 待插入记录本身 + 记录之前的 GAP，Next-Key 锁用于解决 RR 隔离级别下的幻读问题。</p>
-
-<p>通常对于 UPDATE 或 DELETE 或 SELECT … FOR UPDATE 或 SELECT … IN SHARE MODE 操作：</p>
-
-<ul>
-<li>查询条件为唯一索引且是唯一等值查询时，只对记录本身加锁 </li>
-<li>非唯一条件查询，或者查询会扫描到多条记录，加 Next-Key 锁</li>
-</ul>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="mysql-innodb-locks.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2017/6/8</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Database.html'>Database</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-                        <a href="http://blog.tangjiujun.com/mysql-innodb-locks.html#disqus_thread">comments</a>
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="db-trigger-create.html">
-                
-                  <h1>MySQL、SQL Server 和 Oracle 触发器的创建</h1>
+                  <h1>使用 Java 7 的 WatchService 监控目录</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
                         	<blockquote>
-<p>场景：当 users 表在 insert，update，delete 时，在 users_log 表中记录变更的 id</p>
+<p>在 Java 7 新增了 WatchService，它可以用来监控指定目录下的文件改动</p>
 </blockquote>
 
-<h3 id="toc_0">MySQL</h3>
-
-<p>触发时机：BEFORE，AFTER<br/>
-触发事件：INSERT，UPDATE，DELETE<br/>
-NEW 和 OLD 关键字：</p>
-
-<p>| action |      NEW       |      OLD       |<br/>
-  |--------|----------------|----------------|<br/>
-  | insert | 插入的新数据   | 无             |<br/>
-  | update | 修改为的新数据 | 被修改的原数据 |<br/>
-  | delete | 无             | 被删除的原数据 |</p>
-
-<pre><code class="language-sql">DELIMITER $
-CREATE TRIGGER insert_user AFTER INSERT
-ON users FOR EACH ROW 
-BEGIN
-    INSERT INTO users_log(user_id, action) VALUES(NEW.id, &#39;insert&#39;);
-END$
-DELIMITER ;
-</code></pre>
-
 
                         
                       </div>
@@ -295,64 +134,8 @@ DELIMITER ;
                 </a>
                 <div class="read-more clearfix">
                   <div class="more-left left">
-                   <a href="db-trigger-create.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/6/11</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Database.html'>Database</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-                        <a href="http://blog.tangjiujun.com/db-trigger-create.html#disqus_thread">comments</a>
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="java-dynamic-proxy.html">
-                
-                  <h1>代理模式及 Java 实现动态代理</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h3 id="toc_0">前提条件</h3>
-
-<pre><code class="language-java">public interface Animal {
-    void say();
-
-    void run(String addr);
-}
-
-public class Dog implements Animal {
-    @Override
-    public void say() {
-        System.out.println(&quot;汪汪汪&quot;);
-    }
-
-    @Override
-    public void run(String addr) {
-        say();
-        System.out.println(&quot;狗在&quot; + addr + &quot;跑&quot;);
-    }
-}
-</code></pre>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="java-dynamic-proxy.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/4/23</span>
+                   <a href="java-file-watcher.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2015/10/15</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='Java.html'>Java</a></span>
@@ -361,7 +144,7 @@ public class Dog implements Animal {
                   <div class="more-right right">
                   <span class="comments">
                       
-                        <a href="http://blog.tangjiujun.com/java-dynamic-proxy.html#disqus_thread">comments</a>
+                        <a href="http://blog.tangjiujun.com/java-file-watcher.html#disqus_thread">comments</a>
                       
 
                        
@@ -371,20 +154,83 @@ public class Dog implements Animal {
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="mysql-innodb-mvcc.html">
+                <a class="clearlink" href="spring-boot-load-config.html">
                 
-                  <h1>关于 MySQL 中 InnoDB 的 MVCC 的一些理解</h1>
+                  <h1>Spring Boot 的配置加载顺序</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>在 MySQL 中 InnoDB 的 MVCC 实现机制是给每行记录增加三个隐藏字段：</p>
+                        	<h3 id="toc_0">配置的加载</h3>
+
+<p>Spring Boot 可以从 properties 文件、YAML 文件、环境变量和命令行参数获取配置。默认 <code>SpringApplication</code> 将从如下位置加载 <code>application.properties</code> 或 <code>application.yml</code> 文件作为配置。</p>
+
+<ol>
+<li><code>java -jar project.jar --spring.config.location=/path/to/application.yml</code></li>
+<li>......</li>
+<li>A <code>/config</code> subdir of the current directory（<code>application.properties</code> or <code>application.yml</code>）</li>
+<li>The current directory（<code>application.properties</code> or <code>application.yml</code>）</li>
+<li>A classpath <code>/config</code> package（<code>application.properties</code> or <code>application.yml</code>）</li>
+<li>The classpath root（<code>application.properties</code> or <code>application.yml</code>）</li>
+<li><code>@PropertySource</code> 或者 <code>@PropertySources</code> annotations on your <code>@Configuration</code> classes</li>
+<li>Default properties (specified using <code>SpringApplication.setDefaultProperties</code>)</li>
+</ol>
+
+<p>根据配置加载的顺序，前面的配置将会覆盖后面的配置项。<a href="http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html">常见的配置</a></p>
+
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                   <a href="spring-boot-load-config.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2015/9/26</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Spring%20Boot.html'>Spring Boot</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+                        <a href="http://blog.tangjiujun.com/spring-boot-load-config.html#disqus_thread">comments</a>
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="regexp.html">
+                
+                  <h1>RegExp 正则表达式</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h3 id="toc_0">元字符</h3>
 
 <ul>
-<li>6 字节的 DB_TRX_ID，用于记录最近一次插入或更新的事务标示。删除也是一种更新，用一个特殊的字节表示该行已删除。</li>
-<li>7 字节的 DB_ROLL_PTR，回滚指针，指向 undo log 记录。</li>
-<li>6 字节的 DB_ROW_ID，自增长的 row ID。<br/>
-参考：<a href="http://dev.mysql.com/doc/refman/5.7/en/innodb-multi-versioning.html">InnoDB Multi-Versioning</a></li>
+<li>&#39;.&#39; 匹配除换行符以外的任意字符</li>
+<li>&#39;\w&#39; 匹配字母、数字、下划线、汉字</li>
+<li>&#39;\W&#39; 匹配任意不是字母，数字，下划线，汉字的字符</li>
+<li>&#39;\s&#39; 匹配任意的空白符，包括空格、制表符(Tab)、换行符</li>
+<li>&#39;\S&#39; 匹配任意不是空白符的字符</li>
+<li>&#39;\d&#39; 匹配一个数字</li>
+<li>&#39;\D&#39; 匹配任意非数字的字符</li>
+<li>&#39;\b&#39; 匹配单词的开始或结束</li>
+<li>&#39;\B&#39; 匹配不是单词开头或结束的位置</li>
+<li>[abcde] 匹配 &#39;abcde&#39; 中任意一个字符</li>
+<li>[<sup>aeiou]</sup> 匹配除 ’aeiou‘ 以外的任意字符</li>
+<li>&#39;<sup>&#39;</sup> 匹配行首</li>
+<li>&#39;$&#39; 匹配行尾</li>
+<li>&#39;\A&#39; 匹配字符串开头</li>
+<li>&#39;\z&#39; 匹配字符串结尾</li>
+<li>&#39;\Z&#39; 匹配字符串结尾，如果字符串已 &#39;\n&#39; 结尾，不匹配最后的 &#39;\n&#39;</li>
 </ul>
 
 
@@ -394,17 +240,135 @@ public class Dog implements Animal {
                 </a>
                 <div class="read-more clearfix">
                   <div class="more-left left">
-                   <a href="mysql-innodb-mvcc.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/4/17</span>
+                   <a href="regexp.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2015/9/18</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Database.html'>Database</a></span>
+          					    <span class="posted-in"><a href='Others.html'>Others</a></span>
           				   
                   </div>
                   <div class="more-right right">
                   <span class="comments">
                       
-                        <a href="http://blog.tangjiujun.com/mysql-innodb-mvcc.html#disqus_thread">comments</a>
+                        <a href="http://blog.tangjiujun.com/regexp.html#disqus_thread">comments</a>
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="ruby-enumerable.html">
+                
+                  <h1>Ruby 中 Enumerable 的一些方法</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h3 id="toc_0">判断列表</h3>
+
+<p><code>all?</code> <code>any?</code> <code>none?</code> <code>one?</code>如果有代码块，则以代码块的返回值判断；如果没有代码块，则用自身元素判断。<br/><br/>
+<code>all?</code> The method returns true if the block never returns false or nil<br/><br/>
+<code>any?</code> The method returns true if the block ever returns a value other than false or nil<br/><br/>
+<code>none?</code> The method returns true if the block never returns true for all elements<br/><br/>
+<code>one?</code> The method returns true if the block returns true exactly once</p>
+
+<pre><code class="language-ruby">[1, 2, 3, 4].all? { |x| x&lt;3 }   # false
+[1, 2, 3, 4].any? { |x| x&lt;3 }   # true
+[1, 2, 3, 4].none? { |x| x&lt;1 }  # true
+[1, 2, 3, 4].one? { |x| x&lt;1 }  # false
+</code></pre>
+
+<p><code>include?</code> 和 <code>member?</code> 是否包含某个元素</p>
+
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                   <a href="ruby-enumerable.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2015/1/10</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Ruby.html'>Ruby</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+                        <a href="http://blog.tangjiujun.com/ruby-enumerable.html#disqus_thread">comments</a>
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="em-http-server.html">
+                
+                  <h1>使用 EventMachine 实现简单的服务端</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h3 id="toc_0">一个简单的 HTTP Server 例子</h3>
+
+<pre><code class="language-ruby">require &#39;eventmachine&#39;
+require &#39;em-http-server&#39;
+
+class HTTPHandler &lt; EM::HttpServer::Server
+  # 请求从这里开始执行
+  def process_http_request
+    @http # 包含所有 http headers 的 hash
+    @http_content # http body
+
+    # 构造 http response
+    response = EventMachine::DelegatedHttpResponse.new(self)
+    response.status = 200
+    response.content = &#39;hello, world!&#39;
+    response.send_response
+  end
+
+  # 请求发生异常时的回调方法
+  def http_request_errback e
+    puts &quot;#{e.backtrace.shift}: #{e.message} (#{e.class})&quot;
+    puts e.backtrace.map{|line| &quot;\tfrom #{line}&quot;}
+  end
+end
+
+EM.run do
+  # hit Control + C to stop
+  Signal.trap(&quot;INT&quot;)  { EventMachine.stop }
+  Signal.trap(&quot;TERM&quot;) { EventMachine.stop }
+
+  EM.start_server &#39;localhost&#39;, 10000, HTTPHandler
+end
+</code></pre>
+
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                   <a href="em-http-server.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2014/12/12</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Ruby.html'>Ruby</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+                        <a href="http://blog.tangjiujun.com/em-http-server.html#disqus_thread">comments</a>
                       
 
                        
@@ -419,12 +383,12 @@ public class Dog implements Animal {
 			<div class="row">
 			  <div class="large-6 columns">
 			  <p class="text-left" style="padding-top:25px;">
-			   
+			   <a href="all_1.html">&laquo; Prev Page</a>  
 			  </p>
 			  </div>
 			  <div class="large-6 columns">
 			<p class="text-right" style="padding-top:25px;">
-			 <a href="all_1.html">&raquo; Next Page</a> 
+			 <a href="all_3.html">&raquo; Next Page</a> 
 			</p>
 			  </div>
 			</div>

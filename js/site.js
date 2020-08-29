@@ -1,19 +1,3 @@
-/* =============================================================================
-#     FileName: codepiano.js
-#         Desc: javascript for blog
-#       Author: codepiano
-#        Email: codepiano.li@gmail.com
-#     HomePage: http://www.weibo.com/anyexingchen
-#      Version: 0.0.1
-#   LastChange: 2013-05-12 01:39:30
-#      History:
-============================================================================= */
-/* tooltip设置 */
-var tooltipConfig = {
-  "placement": "right",
-  "delay": { show: 200, hide: 100 }
-};
-
 /* 页面加载后执行 */
 !function ($) {
   $(function(){
@@ -33,7 +17,7 @@ var tooltipConfig = {
     if(url.indexOf('categories.html') > -1){
       $('#categories-nav a').click(function (e){
         $(this).tab('show');
-      });
+      })
 
       /* 自动打开链接中的锚点 */
       var matches = url.match(/categories\.html(#.*)/);
@@ -42,7 +26,7 @@ var tooltipConfig = {
       }else{
         $('#categories-nav a:first').tab('show');
       }
-    }
+    } 
 
     /* 自动根据标签过滤table */
     if(url.indexOf('posts.html') > -1){
@@ -91,5 +75,10 @@ datatablesConfig = {
       "sLast":     "末页"
     }
   }
-};
+}
 
+/* tooltip设置 */
+tooltipConfig = {
+  "placement": "right",
+  "delay": { show: 200, hide: 100 }
+}

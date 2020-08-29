@@ -1,13 +1,3 @@
-/* =============================================================================
-#     FileName: codepiano.css
-#         Desc: stylesheet for blog
-#       Author: codepiano
-#        Email: anyexingchen999@qq.com
-#     HomePage: http://www.weibo.com/anyexingchen
-#      Version: 0.0.1
-#   LastChange: 2013-05-14 14:13:41
-#      History:
-============================================================================= */
 
 @charset "utf-8";
 
@@ -105,12 +95,6 @@ a.navbar-brand {
 #nav-menu a {
   color:#EC6197; 
 }
-
-#nav-menu li.active a {
-  color: #169FDE;
-  text-decoration: none;
-}
-
 
 /* 覆盖typo.css中ul默认的margin-left属性 */
 ul.tag_box {
@@ -319,32 +303,28 @@ table#about-me a{
 ul#post_info.tag_box {
   list-style: none;
   margin: 0;
-  overflow: hidden;
+  overflow: hidden; 
   padding-left: 0px;
 }
 
 ul#tag_info.tag_box {
   list-style: none;
   margin: 0;
-  overflow: hidden;
+  overflow: hidden; 
   padding-left: 0px;
 }
 
-ul#tag_info.tag_box > li{
-  display:inline;
-}
-
 ul#post_info.tag_box li {
-  line-height: 28px;
+  line-height: 28px; 
   padding:5px;
 }
 
 ul#post_info.tag_box li i {
-  opacity: 0.9;
+  opacity: 0.9; 
 }
 
 ul#post_info.tag_box.inline li {
-  float: left;
+  float: left; 
 }
 
 ul#post_info.tag_box a {
@@ -353,7 +333,7 @@ ul#post_info.tag_box a {
 
 ul#post_info.tag_box a span {
   vertical-align: super;
-  font-size: 0.8em;
+  font-size: 0.8em; 
 }
 
 div.navbar-header > div.col-md-8 {

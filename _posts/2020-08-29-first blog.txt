@@ -11,7 +11,8 @@ icon: file-alt
 
 {% include site/setup %}
 
-### 致敬分享者之Github个人博客搭建
+致敬分享者之Github个人博客搭建
+--------
 
 #### 前言
 

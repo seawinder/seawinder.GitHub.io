@@ -1,0 +1,41 @@
+---
+layout: post
+keywords: 网页
+description: 网页搭建
+title: "我的第一篇blog"
+categories: [生活]
+tags: [生活]
+group: archive
+icon: file-alt
+---
+
+{% include site/setup %}
+
+### 致敬分享者之Github个人博客搭建
+
+#### 前言
+
+几年前，我就有意搭建自己的个人博客，后因自己购买服务器主要用于FQ，经常重装系统，所以作罢。在20200812，自己在搜索引擎上寻找*小样本学习（Few-shot Learning）*内容，无意间发现了一篇非常简洁的博客写作形式 <a href="https://www.zmonster.me/about.html">zmonster</a> 自己重新燃起了搭建个人博客的热情。到今天20200829，断断续续算是可以扬帆起航了。
+
+#### 材料与步骤
+
+##### 材料
+
+GitHub 账号
+
+GitHub Desktop 软件
+
+
+
+##### 步骤
+
+1. 创建GitHub账号
+
+   因过程简单，为避免重复，具体过程参考 <a href="https://docs.github.com/en/github/getting-started-with-github/set-up-git">官方文档</a> 。
+
+2. 下载GitHub Desktop软件
+
+   常规操作附链接 <a href="https://desktop.github.com/">GITHUB Desktop</a> 。
+
+   
+
